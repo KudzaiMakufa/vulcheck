@@ -1,0 +1,42 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+  <div class="col-12">
+      
+      <!-- <a href="#" class="btn btn-success float-right"></a> -->
+   
+  </div>
+</div>
+    <div class="row">
+        <div class="col-md-6">
+          <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                
+            <tbody>
+             
+              <tr>
+                <td><b>Application Name  </b> </td>
+                <td>
+                    <a href="{{item.library_list.path}}">{{item.application_name}}</a>
+                    </td>
+              </tr>
+
+              {% for item in lines %}
+                        <tr>
+                            <td>{{item}}</td>
+         
+                        </tr>
+                    {% endfor %}
+    
+
+            </tbody>
+          </table>
+        </div>
+       
+      </div>
+
+
+
+  {% endblock %}

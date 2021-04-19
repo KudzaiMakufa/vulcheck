@@ -1,0 +1,98 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+    <div class="row">
+        <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-4">
+                       ID
+                    </div>
+                    <div class="col-sm-8">
+                        {{cve_data.id}}
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-4">
+                       Score
+                    </div>
+                    <div class="col-sm-8">
+                        {{cve_data.cvss.score}}
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-4">
+                       Description
+                    </div>
+                    <div class="col-sm-8">
+                        {{cve_data.description}}
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-4">
+                       Affected Software
+                    </div>
+                    <div class="col-sm-8">
+                        {% for afsoft in cve_data.affectedSoftware %}
+                        <div class="row">
+                            <div class="col-4">
+                            CPN NAME
+                            </div>
+                            <div class="col-8">
+                            {{afsoft.cpeName}}
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-4">
+                            NAME
+                            </div>
+                            <div class="col-8">
+                            {{afsoft.name}}
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-4">
+                            Version
+                            </div>
+                            <div class="col-8">
+                            {{afsoft.version}}
+                            </div>
+                        </div>
+                        <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+
+
+    
+
+    
+
+
+
+  {% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block header %}
+    <link href="{% static "admin/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<form action="" method="post" autocomplete="off" enctype="multipart/form-data">{% csrf_token %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">  
+            <div class="card-body">
+
+                
+                <div class="form-group mb-4">
+                  
+                    <label>{{ form.cve_name.label_tag}}</label>
+                    <div class="input-group">
+                        {{ form.cve_name }}
+                        
+                    </div>
+                    <div class="text-danger"> {{ form.cve_name.errors }}</div>
+                </div>
+
+              
+             
+             
+
+                
+
+                    
+
+                
+            </div>
+        </div>
+    </div>
+   
+</div>
+<div class="row">
+    <div class="col-12">
+     
+      <input type="submit" value="Scan" class="btn btn-success float-left">
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+
+{% block footer %}
+    <script src="{% static "admin/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js" %}"></script>
+    <script src="{% static "admin/assets/js/pages/form-advanced.init.js" %}"></script>
+    <script src="{% static "admin/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js" %}"></script>
+{% endblock %}
+
+
+
+
+
+

@@ -1,0 +1,297 @@
+{% comment %} 
+<!--  Modal content for the above example -->
+<div class="modal fade bs-example-modal-xl" id="modal_{{item.name}}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">        
+                    
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title mt-0" id="myExtraLargeModalLabel">{{item.issue_title.title}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            First Name
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.first_name}}
+                                        </div>
+                                    </div>
+                                   
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Last Name
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.last_name}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Doctor
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.doctor}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Chart Number
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.chart_no}}
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Phone Number
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.phone_number}}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Address
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.address}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Doctor
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.doctor}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_doctor}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Created On
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.created_at}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Created By
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.created_by}}
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Tx Planned
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.tx_planned}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_tx_planned}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Doctor tx planned
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.doctor_tx_planned}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_doctor_tx_planned}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Chart scanned
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.chart_scanned}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_chart_scanned}}
+                                        </div>
+                                    </div>  
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Recieved in ga
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.recieved_in_ga}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_recieved_in_ga}}
+                                        </div>
+                                    </div> 
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Parents contacted
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.parents_contacted}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_parents_contacted}}
+                                        </div>
+                                    </div> 
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Pre auth sent
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.pre_auth_sent}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_pre_auth_sent}}
+                                        </div>
+                                    </div> 
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Decision to proceed
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.decision_proceed}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_decision_proceed}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Consents sent
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.consents_sent}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_consents_sent}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Consents Received
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.consents_received}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_consents_received}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Booked
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.booked}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_booked}}
+                                        </div>
+                                    </div>  
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            Tx completed
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.tx_completed}}
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{item.date_tx_completed}}
+                                        </div>
+                                    </div>      
+
+                                </div>
+                            </div>
+                        </div>
+                     </div> {% endcomment %}
+
+
+
+ <!-- Large modal -->
+                                                          
+                                                        
+<!--  Modal content for the above example -->
+<div class="modal fade bs-example-modal-lg" id="modal_{{item.name}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">{{item.issue_title.title}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Description </h4>
+                <p>{{item.issue_title.description}}</p>
+                    <hr>
+                
+                <div class="row">
+                    <div class="col-sm-3">
+                       Date Published
+                    </div>
+                    <div class="col-sm-4">
+                        {{item.issue_title.published}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        Vulnerability ID
+                    </div>
+                    <div class="col-sm-4">
+                        {{item.issue_title.id}}
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        CVE LIST
+                    </div>
+                    <div class="col-sm-4">
+                        {{item.issue_title.cvelist}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        CVS SCORE
+                    </div>
+                    <div class="col-sm-4">
+                        {{item.issue_title.cvss.score}}
+                    </div>
+                </div>
+
+               
+                <hr>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 

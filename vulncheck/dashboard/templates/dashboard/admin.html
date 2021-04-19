@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content%}
+<div class="row">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body">
+                        <h5 class="font-size-14">Total Patients  </h5>
+                    </div>
+                    <div class="avatar-xs">
+                        <span class="avatar-title rounded-circle bg-primary">
+                            <i class="dripicons-box"></i>
+                        </span>
+                    </div>
+                </div>
+                <h4 class="m-0 align-self-center">{{patient.count}} Patient(s)</h4>
+               
+                <p class="mb-0 mt-3 text-muted"><span class="text-success"><i class="mdi mdi-eye"></i><a href=""> View more</a></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body">
+                        <h5 class="font-size-14">Total Doctors</h5>
+                    </div>
+                    <div class="avatar-xs">
+                        <span class="avatar-title rounded-circle bg-primary">
+                            <i class="dripicons-briefcase"></i>
+                        </span>
+                    </div>
+                </div>
+                <h4 class="m-0 align-self-center">{{doctor}} Doctor(s)</h4>
+                <p class="mb-0 mt-3 text-muted"><span class="text-success"><i class="mdi mdi-eye"></i><a href=""> View more</a></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body">
+                        <h5 class="font-size-14">Tx Cards </h5>
+                    </div>
+                    <div class="avatar-xs">
+                        <span class="avatar-title rounded-circle bg-primary">
+                            <i class="dripicons-tags"></i>
+                        </span>
+                    </div>
+                </div>
+                <h4 class="m-0 align-self-center">{{tx_card.count}} Tx Card(s)</h4>
+                <p class="mb-0 mt-3 text-muted"><span class="text-success"><i class="mdi mdi-eye"></i><a href=""> View more</a></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <div class="media-body">
+                        <h5 class="font-size-14">Blank</h5>
+                    </div>
+                    <div class="avatar-xs">
+                        <span class="avatar-title rounded-circle bg-primary">
+                            <i class="dripicons-cart"></i>
+                        </span>
+                    </div>
+                </div>
+                <h4 class="m-0 align-self-center">0</h4>
+                <p class="mb-0 mt-3 text-muted"><span class="text-success"><i class="mdi mdi-eye"></i><a href=""> View more</a></span></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+             
+                <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                    <tr>
+                        
+                        <th>First Name </th>
+                        <th>Last Name</th>
+                        <th>Phone Number</th>
+                        <th>Doctor</th>
+                        <th>Gender  </th>
+                        <th>Status  </th>
+                        <th>Actions  </th>
+                        
+                    
+                    </tr>
+                    </thead>
+
+
+                    <tbody>
+                 
+                    {% for item in patient %}
+                        <tr>
+                            <td>{{item.first_name}}</td>
+                            <td>{{item.last_name}}</td>
+                            <td>{{item.phone_number}}</td>
+                            <td>{{item.doctor}}</td>
+                             <td>{{item.gender}}</td>
+                            <td>{{item.status}}</td>
+                           
+                        
+                        
+                            <td>
+                                <a href="{% url  'patient:view' item.id  %}" class="btn btn-outline-primary waves-effect waves-light" >Details </a>
+                                <a href="{% url  'patient:edit' item.id  %}" class="btn btn-outline-success waves-effect waves-light" >Edit</a>
+                                <a href="{% url  'patient:list_patients_cards' item.id  %}" class="btn btn-outline-primary waves-effect waves-light" >Tx Cards</a>
+                                <a href="{% url  'patient:delete' item.id  %}" class="btn btn-outline-danger waves-effect waves-light" onclick="alert('Are you sure you want to delete')" >Delete</a>
+                                
+                              
+                            </td>
+                        
+                        </tr>
+                    {% endfor %}
+               
+              
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+
+</div> <!-- end row -->
+
+{% endblock %}

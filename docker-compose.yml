@@ -15,7 +15,7 @@ services:
       - ./vulncheck/:/usr/src/app/
       - staticdata:/usr/src/app/media/uploads
     ports:
-      - 8000:8000
+      - 4000:8000
     env_file:
       - ./.env.dev
     depends_on:

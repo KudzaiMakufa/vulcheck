@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 import vulners  
+from django.core.mail import send_mail
 
 
 # @login_required
@@ -64,12 +65,21 @@ def dashboard_index(request):
 def dashboard_libraries(request):
     libraries = Library.objects.all().order_by('-id')
     url = "dashboard/list_librabries.html" 
+    # send_mail(
+    #     'Payment',
+    #     'find payment.',
+    #     'kidkudzy@gmail.com',
+    #     ['kmakufa@outlook.com', 'promiseksystems@gmail.com'],
+    #     fail_silently=False,
+    # )
     context = {
         
         'title': "Add Libraries",
         'libraries':libraries
         
     } 
+
+
     return render(request , url , context)
 
 
@@ -94,69 +104,69 @@ def library_scan(request ,lib_id=None):
 @login_required
 def scan_all(request ):
 
-    url_path = "dashboard/windows_vulncheck.html"
+    url_path = "dashboard/scan_all.html"
 
-    # library = Library.objects.filter(data_mode="application").order_by('-id').first()
-    # print(library.data_mode)
-    # f = open(library.library_list.path, "r")
-    # print("------------------")
-    # lines = f.readlines()
-
-
-
-    # data = []
-    # Issues = []
-    # Affected_Cve = []
+    library = Library.objects.filter(data_mode="application").order_by('-id').first()
+    print(library.data_mode)
+    f = open(library.library_list.path, "r")
+    print("------------------")
+    lines = f.readlines()
 
 
-    # for line in lines:
-    #     # here comes the vuln scanner logic
-    #     sep = '=='
-    #     stripped = line.split(sep, 1)[0]
-    #     lib_version = line.split(sep, 1)[1]
-    #     is_safe = False
+
+    data = []
+    Issues = []
+    Affected_Cve = []
+
+
+    for line in lines:
+        # here comes the vuln scanner logic
+        sep = '=='
+        stripped = line.split(sep, 1)[0]
+        lib_version = line.split(sep, 1)[1]
+        is_safe = False
         
-    #     # print(line.strip())
-    #     # print("-------without end-------")
-    #     # print(line.split(sep, 1)[0])
-    #     # print("------with end-----")
+        # print(line.strip())
+        # print("-------without end-------")
+        # print(line.split(sep, 1)[0])
+        # print("------with end-----")
         
-    #     # check updates and security
-    #     with PyPISimple() as client:
-    #         requests_page = client.get_project_page(stripped.strip())
+        # check updates and security
+        with PyPISimple() as client:
+            requests_page = client.get_project_page(stripped.strip())
         
-    #     requests_page = client.get_project_page(stripped.strip())
-    #     pkg_params = {}
+        requests_page = client.get_project_page(stripped.strip())
+        pkg_params = {}
 
-    #     if(library.data_mode == 'application'):
+        if(library.data_mode == 'application'):
             
 
-    #         try:
-    #             try:
-    #                 vulners_api = vulners.Vulners(api_key="4QIYDKA0NXPHUWXJNQYLISIZEZZH8FM25YNK0L518VOWJJEOWO81XGMH2KSL81KJ")
-    #                 results = vulners_api.softwareVulnerabilities(stripped.strip(), lib_version.strip())
-    #                 # print(len(stripped.strip()))
-    #                 # print(len(lib_version.strip()))
-    #                 # results = vulners_api.softwareVulnerabilities("httpd", "1.3")
-    #                 exploit_list = results.get('exploit')
-    #                 vulnerabilities_list = [results.get(key) for key in results if key not in ['info', 'blog', 'bugbounty']]
-    #                 print("vulneralibity type_____"+vulnerabilities_list[0][0]['type'])
-    #                 print(vulnerabilities_list[0][0]['title'])
-    #                 Issues = vulnerabilities_list[0][0]
+            try:
+                try:
+                    vulners_api = vulners.Vulners(api_key="4QIYDKA0NXPHUWXJNQYLISIZEZZH8FM25YNK0L518VOWJJEOWO81XGMH2KSL81KJ")
+                    results = vulners_api.softwareVulnerabilities(stripped.strip(), lib_version.strip())
+                    # print(len(stripped.strip()))
+                    # print(len(lib_version.strip()))
+                    # results = vulners_api.softwareVulnerabilities("httpd", "1.3")
+                    exploit_list = results.get('exploit')
+                    vulnerabilities_list = [results.get(key) for key in results if key not in ['info', 'blog', 'bugbounty']]
+                    print("vulneralibity type_____"+vulnerabilities_list[0][0]['type'])
+                    print(vulnerabilities_list[0][0]['title'])
+                    Issues = vulnerabilities_list[0][0]
                     
 
-    #             except:
-    #                 is_safe = True
-    #                 print("safe")
-    #             pkg = requests_page.packages[0]
-    #             pkg_params = {"name":pkg.project , "current_version":lib_version.strip() , "latest_version":pkg.version ,"digest":pkg.get_digests()['sha256'] , 'url':pkg.url ,'is_signed':pkg.has_sig ,'is_safe':is_safe ,'issue_title':Issues}
-    #         except:
-    #             pkg_params = {"name":stripped.strip() , "current_version":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a",'is_safe':is_safe ,'issue_title':Issues}
+                except:
+                    is_safe = True
+                    print("safe")
+                pkg = requests_page.packages[0]
+                pkg_params = {"name":pkg.project , "current_version":lib_version.strip() , "latest_version":pkg.version ,"digest":pkg.get_digests()['sha256'] , 'url':pkg.url ,'is_signed':pkg.has_sig ,'is_safe':is_safe ,'issue_title':Issues}
+            except:
+                pkg_params = {"name":stripped.strip() , "current_version":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a",'is_safe':is_safe ,'issue_title':Issues}
 
-    #          # scan safety-db
+             # scan safety-db
             
-    #     data.append(pkg_params.copy())
-    #     # print(data)
+        data.append(pkg_params.copy())
+        # print(data)
 
 
 
@@ -177,7 +187,7 @@ def scan_all(request ):
 
 
 
-    services = []
+    windows = []
     Issues = []
     Affected_Cve = []
     
@@ -219,7 +229,7 @@ def scan_all(request ):
             windows_pkg_params = {"name":stripped.strip() , "kb_name":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a",'is_safe':is_safe ,'affected_cve':Affected_Cve}
             #  scan safety-db
             
-        services.append(windows_pkg_params.copy())
+        windows.append(windows_pkg_params.copy())
         # print(data)
 
 
@@ -312,9 +322,12 @@ def scan_all(request ):
  
     # print("------------------")
     # f.close()
+    messages.add_message(request, messages.INFO, 'Vulnerabilities found , Email send to admin')
+           
     context = {
         "item":"show all",
-        "data":data 
+        "windows":windows ,
+        "data":data
        
     }
     return render(request, url_path, context)
@@ -336,6 +349,16 @@ def library_scan(request ,lib_id=None):
         "item":library[0], 
         "lines":lines
     }
+
+    # send_mail(
+    #     'Payment',
+    #     'find payment.',
+    #     'kidkudzy@gmail.com',
+    #     ['kmakufa@outlook.com', 'promiseksystems@gmail.com'],
+    #     fail_silently=False,
+    # )
+
+    
     return render(request, 'dashboard/library_view.html', context)
     
 @login_required

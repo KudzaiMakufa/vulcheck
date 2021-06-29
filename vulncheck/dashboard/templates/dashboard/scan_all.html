@@ -12,10 +12,11 @@
 </div>
 
 <!-- at application level  -->
-
+<h1 class="text-success"><b>APPLICATION /SERVICE LEVEL</b></h1>
+<hr>
     <div class="row">
-        <h1 class="text-success"><b>APPLICATION LEVEL</b></h1>
-        <hr>
+       
+    
         <div class="col-md-6">
             <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead>
@@ -92,6 +93,67 @@
       </div>
 
       <hr>
+
+
+      <!-- 
+
+
+        WINDOWS LEVEL
+
+
+
+       -->
+       <h1 class="text-success"><b>WINDOWS LEVEL</b></h1>
+       <div class="row">
+        
+        <div class="col-md-6">
+            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                <tr>
+                    
+                    <th>KB ITEMS </th>
+                    
+                  
+                    <th>Actions  </th>
+                    
+                
+                </tr>
+                </thead>
+
+
+                <tbody>
+             
+                {% for item in windows %}
+                
+                    <tr>
+                        <td>{{item.kb_name}}</td>
+                    
+                        
+                       
+                            <td>
+                              <a data-toggle="modal" data-target="#modal_{{item.name}}" class="btn btn btn-success waves-effect waves-light"><i class="fas fa-eye"></i>Show Affected CVE</a>|
+                     
+                            </td>
+                            {% include './_modal_kb_data.html' %}
+                      
+                        
+
+                    
+                       
+                    
+                    
+                      
+                    
+                    </tr>
+                {% endfor %}
+           
+          
+                </tbody>
+            </table>
+
+        </div>
+       
+      </div>
 
 
 

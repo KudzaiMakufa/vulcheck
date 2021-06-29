@@ -33,7 +33,7 @@ MENUS = {
                 },
                  {
                     "name": "Scan All",
-                    "url": "dashboard:create",     
+                    "url": "dashboard:scan_all",     
                     
                 },
                 {

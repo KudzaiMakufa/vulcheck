@@ -72,6 +72,261 @@ def dashboard_libraries(request):
     } 
     return render(request , url , context)
 
+
+
+@login_required
+def library_scan(request ,lib_id=None):
+    library = Library.objects.filter(id=lib_id).order_by('-id')
+    f = open(library[0].library_list.path, "r")
+    print("------------------")
+
+    lines = f.readlines()
+    for line in lines:
+        print(line)
+    print("------------------")
+    f.close()
+    context = {
+        "item":library[0], 
+        "lines":lines
+    }
+    return render(request, 'dashboard/library_view.html', context)
+    
+@login_required
+def scan_all(request ):
+
+    url_path = "dashboard/app_vulncheck.html"
+
+    library = Library.objects.filter(data_mode="application").order_by('-id').first()
+    print(library.data_mode)
+    f = open(library.library_list.path, "r")
+    print("------------------")
+    lines = f.readlines()
+
+
+
+    data = []
+    Issues = []
+    Affected_Cve = []
+
+
+    for line in lines:
+        # here comes the vuln scanner logic
+        sep = '=='
+        stripped = line.split(sep, 1)[0]
+        lib_version = line.split(sep, 1)[1]
+        is_safe = False
+        
+        # print(line.strip())
+        # print("-------without end-------")
+        # print(line.split(sep, 1)[0])
+        # print("------with end-----")
+        
+        # check updates and security
+        with PyPISimple() as client:
+            requests_page = client.get_project_page(stripped.strip())
+        
+        requests_page = client.get_project_page(stripped.strip())
+        pkg_params = {}
+
+        if(library.data_mode == 'application'):
+            
+
+            try:
+                try:
+                    vulners_api = vulners.Vulners(api_key="4QIYDKA0NXPHUWXJNQYLISIZEZZH8FM25YNK0L518VOWJJEOWO81XGMH2KSL81KJ")
+                    results = vulners_api.softwareVulnerabilities(stripped.strip(), lib_version.strip())
+                    # print(len(stripped.strip()))
+                    # print(len(lib_version.strip()))
+                    # results = vulners_api.softwareVulnerabilities("httpd", "1.3")
+                    exploit_list = results.get('exploit')
+                    vulnerabilities_list = [results.get(key) for key in results if key not in ['info', 'blog', 'bugbounty']]
+                    print("vulneralibity type_____"+vulnerabilities_list[0][0]['type'])
+                    print(vulnerabilities_list[0][0]['title'])
+                    Issues = vulnerabilities_list[0][0]
+                    
+
+                except:
+                    is_safe = True
+                    print("safe")
+                pkg = requests_page.packages[0]
+                pkg_params = {"name":pkg.project , "current_version":lib_version.strip() , "latest_version":pkg.version ,"digest":pkg.get_digests()['sha256'] , 'url':pkg.url ,'is_signed':pkg.has_sig ,'is_safe':is_safe ,'issue_title':Issues}
+            except:
+                pkg_params = {"name":stripped.strip() , "current_version":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a",'is_safe':is_safe ,'issue_title':Issues}
+
+             # scan safety-db
+            
+        data.append(pkg_params.copy())
+        # print(data)
+    # application level 
+    # 
+    # 
+    # 
+    # 
+    # 
+    # 
+
+
+    library = Library.objects.filter(data_mode="services").order_by('-id').first()
+    print(library.data_mode)
+    f = open(library.library_list.path, "r")
+    print("------------------")
+    lines = f.readlines()
+
+
+
+    services = []
+    Issues = []
+    Affected_Cve = []
+    
+
+    for line in lines:
+        # here comes the vuln scanner logic
+        sep = '=='
+        stripped = line.split(sep, 1)[0]
+        lib_version = line.split(sep, 1)[1]
+        is_safe = False
+        
+        # print(line.strip())
+        # print("-------without end-------")
+        # print(line.split(sep, 1)[0])
+        # print("------with end-----")
+        
+        # check updates and security
+        with PyPISimple() as client:
+            requests_page = client.get_project_page(stripped.strip())
+        
+        requests_page = client.get_project_page(stripped.strip())
+        pkg_params = {}
+
+        if(library.data_mode == 'services'):
+        
+
+            try:
+                try:
+                    vulners_api = vulners.Vulners(api_key="4QIYDKA0NXPHUWXJNQYLISIZEZZH8FM25YNK0L518VOWJJEOWO81XGMH2KSL81KJ")
+                    results = vulners_api.softwareVulnerabilities(stripped.strip(), lib_version.strip())
+                    # print(len(stripped.strip()))
+                    # print(len(lib_version.strip()))
+                    # results = vulners_api.softwareVulnerabilities("httpd", "1.3")
+                    exploit_list = results.get('exploit')
+                    vulnerabilities_list = [results.get(key) for key in results if key not in ['info', 'blog', 'bugbounty']]
+                    print("vulneralibity type_____"+vulnerabilities_list[0][0]['type'])
+                    print(vulnerabilities_list[0][0]['title'])
+                    Issues = vulnerabilities_list[0][0]
+                    
+
+                except:
+                    is_safe = True
+                    print("safe")
+                pkg = requests_page.packages[0]
+                pkg_params = {"name":pkg.project , "current_version":lib_version.strip() , "latest_version":pkg.version ,"digest":pkg.get_digests()['sha256'] , 'url':pkg.url ,'is_signed':pkg.has_sig ,'is_safe':is_safe ,'issue_title':Issues}
+            except:
+                pkg_params = {"name":stripped.strip() , "current_version":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a",'is_safe':is_safe ,'issue_title':Issues}
+
+             # scan safety-db
+            
+        services.append(pkg_params.copy())
+        # print(data)
+
+
+    # f = open(library[0].library_list.path, "r")
+    # print("------------------")
+
+    # lines = f.readlines()
+
+    # data = []
+    # Issues = []
+    # Affected_Cve = []
+    # url_path = ""
+   
+    # for line in lines:
+    #     # here comes the vuln scanner logic
+    #     sep = '=='
+    #     stripped = line.split(sep, 1)[0]
+    #     lib_version = line.split(sep, 1)[1]
+    #     is_safe = False
+        
+    #     # print(line.strip())
+    #     # print("-------without end-------")
+    #     # print(line.split(sep, 1)[0])
+    #     # print("------with end-----")
+      
+    #     # check updates and security
+    #     with PyPISimple() as client:
+    #         requests_page = client.get_project_page(stripped.strip())
+        
+    #     requests_page = client.get_project_page(stripped.strip())
+    #     pkg_params = {}
+
+    #     if(library[0].data_mode == 'application'):
+    #         url_path = "dashboard/app_vulncheck.html"
+
+    #         try:
+    #             try:
+    #                 vulners_api = vulners.Vulners(api_key="4QIYDKA0NXPHUWXJNQYLISIZEZZH8FM25YNK0L518VOWJJEOWO81XGMH2KSL81KJ")
+    #                 results = vulners_api.softwareVulnerabilities(stripped.strip(), lib_version.strip())
+    #                 # print(len(stripped.strip()))
+    #                 # print(len(lib_version.strip()))
+    #                 # results = vulners_api.softwareVulnerabilities("httpd", "1.3")
+    #                 exploit_list = results.get('exploit')
+    #                 vulnerabilities_list = [results.get(key) for key in results if key not in ['info', 'blog', 'bugbounty']]
+    #                 print("vulneralibity type_____"+vulnerabilities_list[0][0]['type'])
+    #                 print(vulnerabilities_list[0][0]['title'])
+    #                 Issues = vulnerabilities_list[0][0]
+                    
+
+    #             except:
+    #                 is_safe = True
+    #                 print("safe")
+    #             pkg = requests_page.packages[0]
+    #             pkg_params = {"name":pkg.project , "current_version":lib_version.strip() , "latest_version":pkg.version ,"digest":pkg.get_digests()['sha256'] , 'url':pkg.url ,'is_signed':pkg.has_sig ,'is_safe':is_safe ,'issue_title':Issues}
+    #         except:
+    #             pkg_params = {"name":stripped.strip() , "current_version":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a",'is_safe':is_safe ,'issue_title':Issues}
+
+    #          # scan safety-db
+            
+    #     elif(library[0].data_mode == 'services'):
+    #         url_path = "dashboard/service_vulncheck.html"
+    #         pkg_params = {"name":stripped.strip() , "current_version":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a" ,'is_safe':is_safe}
+            
+    #     elif(library[0].data_mode == 'windows'):
+    #         url_path = "dashboard/windows_vulncheck.html"
+    #         try:
+    #             vulners_api = vulners.Vulners(api_key="4QIYDKA0NXPHUWXJNQYLISIZEZZH8FM25YNK0L518VOWJJEOWO81XGMH2KSL81KJ")
+    #             win_vulners = vulners_api.kbAudit(os="Windows Server 2012 R2", kb_list=[lib_version.strip()])
+    #             need_2_install_kb = win_vulners['kbMissed']
+    #             affected_cve = win_vulners['cvelist']
+    #             print("_____affected cve_____")
+    #             print(affected_cve[0])
+    #             Affected_Cve = affected_cve
+
+    #         except:
+    #             is_safe = True
+                
+    #         pkg_params = {"name":stripped.strip() , "kb_name":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a",'is_safe':is_safe ,'affected_cve':Affected_Cve}
+    #     else:pass
+        
+
+
+        
+       
+
+    #     data.append(pkg_params.copy())
+    
+        
+           
+ 
+    # print("------------------")
+    # f.close()
+    context = {
+        "item":"show all",
+        "data":data 
+       
+    }
+    return render(request, url_path, context)
+
+
+
 @login_required
 def library_scan(request ,lib_id=None):
     library = Library.objects.filter(id=lib_id).order_by('-id')
@@ -151,6 +406,7 @@ def vuln_check(request ,lib_id=None):
         elif(library[0].data_mode == 'services'):
             url_path = "dashboard/service_vulncheck.html"
             pkg_params = {"name":stripped.strip() , "current_version":lib_version.strip() , "latest_version":"n/a" ,"digest":"n/a" ,'is_safe':is_safe}
+
         elif(library[0].data_mode == 'windows'):
             url_path = "dashboard/windows_vulncheck.html"
             try:

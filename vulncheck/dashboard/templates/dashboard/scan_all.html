@@ -1,0 +1,98 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+  <div class="col-12">
+      
+    
+   
+  </div>
+</div>
+
+<!-- at application level  -->
+
+    <div class="row">
+        <h1 class="text-success"><b>APPLICATION LEVEL</b></h1>
+        <hr>
+        <div class="col-md-6">
+            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                <tr>
+                    
+                    <th>Library Name </th>
+                    
+                    <th>Installed Version</th>
+                    {% comment %} <th>Latest Version</th> {% endcomment %}
+                    <th>Digest </th>
+                    <th>Url </th>
+                    <th>Is Signed </th>
+                    <th>Is Safe </th>
+                    <th>Actions  </th>
+                    
+                
+                </tr>
+                </thead>
+
+
+                <tbody>
+             
+                {% for item in data %}
+                
+                    <tr>
+                        <td>{{item.name}}</td>
+                    
+                        
+                        <td>{{item.current_version}}</td>
+                        {% comment %} <td>{{item.latest_version}}</td> {% endcomment %}
+                        <td>{{item.digest}}</td>
+                        <td>
+                           <a href="{{item.url}}">{{item.name}}</a> 
+                        </td>
+                        <td> 
+                            {% if item.is_signed == None %}
+                            <p class="text-warning">Unspecified</p>
+                            {% else %}
+                            <p class="text-success">Signed</p>
+                            {% endif %}
+                        </td>
+
+                       
+                            {% if item.is_safe %}
+                             <td> <p class="text-success">Safe</p></td>
+                             
+                            {% else %}
+                            
+                            <td><p class="text-danger">Vulnerable</p></td>
+                            
+                            <td>
+                              <a data-toggle="modal" data-target="#modal_{{item.name}}" class="btn btn-sm btn-outline-success waves-effect waves-light"><i class="fas fa-eye"></i></a>|
+                            {% comment %} <button class="btn btn-sm btn-primary"> Issues</button> {% endcomment %}
+                            </td>
+                            {% include './issues.html' %}
+                            {% endif %}
+                        
+
+                    
+                       
+                    
+                    
+                      
+                    
+                    </tr>
+                {% endfor %}
+           
+          
+                </tbody>
+            </table>
+
+        </div>
+       
+      </div>
+
+      <hr>
+
+
+
+  {% endblock %}
